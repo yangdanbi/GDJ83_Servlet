@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.tbl {
+	border: solid black 2px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	width: 60%;
+	/*부모인 body의 60퍼*/
+	margin: 10px auto;
+}
+
+.tbl td, .tbl td {
+	border: dashed red 1px;
+	height: 40px;
+	/*부모인 body의 height는 스크롤로 인해 무한이기 때문에 % 안먹음 */
+	text-align: center;
+}

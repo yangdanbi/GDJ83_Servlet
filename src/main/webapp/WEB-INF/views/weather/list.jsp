@@ -35,5 +35,7 @@
 		</c:forEach>
 
 	</table>
+	<!-- a태그는 무조건 get타입 -->
+	<a href="./add">날씨등록</a>
 </body>
 </html>

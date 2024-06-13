@@ -3,6 +3,7 @@ package com.winter.home.weather;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -61,6 +62,32 @@ public class WeatherDAO {
 		// 못찾으면 null이 리턴
 		// 무언갈 찾음 null 이 안뜨게 됨
 		return reault;
+	}
+
+	public WeatherDTO add(WeatherDTO weatherDTO) throws Exception {
+		List<WeatherDTO> ar = this.getWeathers();
+		// 도시명-기온-상태-습도
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(ar.size() + 1);// 번호
+
+		stringBuffer.append(weatherDTO.getCity());
+		stringBuffer.append("-");
+		stringBuffer.append(weatherDTO.getGion());
+		stringBuffer.append("-");
+		stringBuffer.append(weatherDTO.getStatus());
+		stringBuffer.append("-");
+		stringBuffer.append(weatherDTO.getHuminity());
+
+//		System.out.println(city + "-" + gion + "-" + status + "-" + huminity);
+		System.out.println(stringBuffer.toString());
+		File file = new File("C:\\study", "weather.txt");
+		FileWriter fw = new FileWriter(file, true);
+		fw.write(weatherDTO.getCity() + "\r\n");
+		fw.write(weatherDTO.getGion() + "\r\n");
+		fw.write(weatherDTO.getStatus() + "\r\n");
+		fw.write(weatherDTO.getHuminity());
+		fw.flush();
+		return weatherDTO;
 
 	}
 

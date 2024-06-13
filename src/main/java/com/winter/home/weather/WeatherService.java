@@ -38,4 +38,17 @@ public class WeatherService {
 
 	}
 
+	// 폼에서 입력받은 데이터를 받아서 파일에 저장해주는 DAO로 보내주는 역할
+	public WeatherDTO add(WeatherDTO weatherDTO) {// 매개변수로 받음
+		try {
+			weatherDTO = weatherDAO.add(weatherDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return weatherDTO;
+
+	}
+
 }

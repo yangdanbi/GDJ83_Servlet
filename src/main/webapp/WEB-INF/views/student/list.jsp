@@ -29,7 +29,7 @@
 		<c:forEach items="${requestScope.list}" var="student">
 		<tbody>
 			<tr>
-				<td><a href=".detail?num=${pageScope.student.num}">${pageScope.student.num}</a></td>
+				<td><a href="./detail?num=${pageScope.student.num}">${pageScope.student.num}</a></td>
 				<td>${pageScope.student.name}</td>
 				<td>${pageScope.student.kor}</td>
 				<td>${pageScope.student.eng}</td>

@@ -24,7 +24,7 @@
 			<tbody>
 				<tr>
 					<td>${pageScope.weather.num}</td>
-					<td><a href="./detail">${pageScope.weather.city}</a></td>
+					<td><a href="./detail?num=${pageScope.weather.num}">${pageScope.weather.city}</a></td>
 					<td>${pageScope.weather.gion}</td>
 					<td>${pageScope.weather.status}</td>
 					<td>${pageScope.weather.huminity}</td>

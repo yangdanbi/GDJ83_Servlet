@@ -18,14 +18,23 @@
 			<tr>
 				<th>Num</th>
 				<th>Name</th>
+				<th>Kor</th>
+				<th>Eng</th>
+				<th>Math</th>
+				<th>Total</th>
 				<th>Avg</th>
+				
 			</tr>
 		</thead>
 		<c:forEach items="${requestScope.list}" var="student">
 		<tbody>
 			<tr>
-				<td>${pageScope.student.num}</td>
+				<td><a href=".detail?num=${pageScope.student.num}">${pageScope.student.num}</a></td>
 				<td>${pageScope.student.name}</td>
+				<td>${pageScope.student.kor}</td>
+				<td>${pageScope.student.eng}</td>
+				<td>${pageScope.student.math}</td>
+				<td>${pageScope.student.total}</td>
 				<td>${pageScope.student.avg}</td>
 			</tr>
 			

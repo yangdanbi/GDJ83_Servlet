@@ -39,14 +39,14 @@ public class StudentController {
 
 		String method = request.getMethod();
 		if (result[2].equals("list")) {
-			List<Student> list = studentService.getStudents(); // 변수명은 안맞춰도 됨
+			List<StudentDTO> list = studentService.getStudents(); // 변수명은 안맞춰도 됨
 			request.setAttribute("list", list);// jsp로 보내기
 			action.setPath("/WEB-INF/views/student/list.jsp");
 			System.out.println("학생정보 전체출력");
 
 		} else if (result[2].equals("add")) {
 			if (method.toUpperCase().equals("POST")) {
-				Student student = new Student();
+				StudentDTO student = new StudentDTO();
 
 				System.out.println("학생 등록데이터를 꺼내야함"); // 파라미터 꺼내면 무조건 string
 				// post방식으로 파라미터 넘기는법
@@ -81,24 +81,32 @@ public class StudentController {
 		} else if (result[2].equals("delete")) {
 			System.out.println("학생정보 삭제");
 		} else if (result[2].equals("detail")) {
+
 			// 지역변수라 소멸되기때문에 request
 //			String name = "winter";
 //			double avg = 89.23;
 //			request.setAttribute("name", name);// key 중복x, value
 //			request.setAttribute("avg", avg);
 
-			Student student = studentService.makeStudent();// 주소를 보내면 됨
-			request.setAttribute("s", student);// key value
+			// StudentDTO student = studentService.makeStudent();// 주소를 보내면 됨
+			// request.setAttribute("s", student);// key value
+			String num = request.getParameter("num");
+			StudentDTO studentDTO = new StudentDTO();
+			studentDTO.setNum(Integer.parseInt(num));
+			studentDTO = studentService.getDetail(studentDTO);
 
-			System.out.println("학생한명 정보출력");
-			action.setPath("/WEB-INF/views/student/detail.jsp");
+			if (studentDTO != null) {
+
+				request.setAttribute("dto", studentDTO);
+				System.out.println("학생한명 정보출력");
+				action.setPath("/WEB-INF/views/student/detail.jsp");
+			} else {
+				request.setAttribute("message", "정보가 없습니다.");
+				action.setPath("/WEB-INF/views/commons/message.jsp");
+			}
 		}
 		return action;
 
 	}
 
-	private int setNum(String num) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

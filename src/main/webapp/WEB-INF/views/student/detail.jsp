@@ -16,8 +16,13 @@
 	<%-- <h3>${requestScope.avg}</h3> --%>
 	<!--꺼낼때는 getter에 이름을 씀 - get을빼고 첫글자를 소문자로 바꾼것  -->
 	<!--꺼낼때는 getter에 이름을 씀 - set을빼고 첫글자를 소문자로 바꾼것  -->
-	<h3>${requestScope.s.name}</h3>
-	<h3>${requestScope.s.num}</h3>
-	<h3>${requestScope.s.avg}</h3>
+ 	<h3>${requestScope.dto.num}</h3>
+	<h3>${requestScope.dto.name}</h3>
+	<h3>${requestScope.dto.kor}</h3>
+	<h3>${requestScope.dto.eng}</h3>
+	<h3>${requestScope.dto.math}</h3>
+	<h3>${requestScope.dto.total}</h3>
+	<h3>${requestScope.dto.avg}</h3> 
+	
 </body>
 </html>

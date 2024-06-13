@@ -45,4 +45,23 @@ public class WeatherDAO {
 
 	}
 
+	public WeatherDTO getDetail(WeatherDTO weatherDTO) throws Exception {// weathDTO를 받아옴
+		// 파일을 읽어서 해당하는 정보를 전달하기
+		List<WeatherDTO> ar = this.getWeathers(); // 목록들이 ar에 다 들어가있음
+
+		WeatherDTO reault = null;
+
+		for (WeatherDTO w : ar) {
+			if (w.getNum() == weatherDTO.getNum()) {
+				reault = w;
+
+				break;
+			}
+		}
+		// 못찾으면 null이 리턴
+		// 무언갈 찾음 null 이 안뜨게 됨
+		return reault;
+
+	}
+
 }

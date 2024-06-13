@@ -41,6 +41,9 @@ public class FrontController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// ip:port 를 제외한것 uri
 		// TODO Auto-generated method stub
+		System.out.println("request");
+		System.out.println(request.getRequestURI());
+		System.out.println(request.getMethod());
 		System.out.println("실행 됨");
 		// url method는 필수 파라미터는 없어도 됨
 		// url- ip,port = uri

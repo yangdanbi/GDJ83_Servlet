@@ -68,10 +68,11 @@ public class WeatherDAO {
 		List<WeatherDTO> ar = this.getWeathers();
 		// 도시명-기온-상태-습도
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(ar.size() + 1);// 번호
-
+		weatherDTO.setNum(ar.size() + 1);// 번호
+		stringBuffer.append(weatherDTO.getNum());
+		stringBuffer.append(",");
 		stringBuffer.append(weatherDTO.getCity());
-		stringBuffer.append("-");
+		stringBuffer.append(",");
 		stringBuffer.append(weatherDTO.getGion());
 		stringBuffer.append("-");
 		stringBuffer.append(weatherDTO.getStatus());
@@ -82,10 +83,12 @@ public class WeatherDAO {
 		System.out.println(stringBuffer.toString());
 		File file = new File("C:\\study", "weather.txt");
 		FileWriter fw = new FileWriter(file, true);
-		fw.write(weatherDTO.getCity() + "\r\n");
-		fw.write(weatherDTO.getGion() + "\r\n");
-		fw.write(weatherDTO.getStatus() + "\r\n");
-		fw.write(weatherDTO.getHuminity());
+		fw.write("\r"+stringBuffer.toString());
+//		fw.write(ar.size() + 1);
+//		fw.write(weatherDTO.getCity() + "\r");
+//		fw.write(weatherDTO.getGion() + "\r");
+//		fw.write(weatherDTO.getStatus() + "\r");
+//		fw.write(weatherDTO.getHuminity());
 		fw.flush();
 		return weatherDTO;
 

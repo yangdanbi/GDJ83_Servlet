@@ -72,12 +72,13 @@ public class FrontController extends HttpServlet {
 				action = wc.start(request);
 			}
 
-			if (action.isFlag()) {
+			if (action.isFlag()) {// flag가 true일때 foward
 
 				RequestDispatcher view = request.getRequestDispatcher(action.getPath());// 무조건 절대경로 jsp로 이동하자
 				view.forward(request, response);
 
 			} else {
+				// flag가 false일때 실행
 				response.sendRedirect(action.getPath());
 			}
 			System.out.println(uri);

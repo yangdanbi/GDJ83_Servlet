@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -68,8 +69,11 @@ public class WeatherDAO {
 		List<WeatherDTO> ar = this.getWeathers();
 		// 도시명-기온-상태-습도
 		StringBuffer stringBuffer = new StringBuffer();
-		weatherDTO.setNum(ar.size() + 1);// 번호
-		stringBuffer.append(weatherDTO.getNum());
+		// 중복되지않는 수를 만들거임 시간을 이용해서
+		Calendar ca = Calendar.getInstance();
+		stringBuffer.append(ca.getTimeInMillis());// 중복되지않도록 년월일시분초를 Millis 바꿔줌
+//		weatherDTO.setNum(ar.size() + 1);// 번호
+//		stringBuffer.append(weatherDTO.getNum());
 		stringBuffer.append(",");
 		stringBuffer.append(weatherDTO.getCity());
 		stringBuffer.append(",");
@@ -125,23 +129,27 @@ public class WeatherDAO {
 
 		StringBuffer stringBuffer = new StringBuffer();// 객체생성
 		for (WeatherDTO w : ar) {
-			weatherDTO.setNum(ar.size());// 번호
-			stringBuffer.append(weatherDTO.getNum());
+			// weatherDTO.setNum(ar.size());// 번호
+			stringBuffer.append(w.getNum());
 			stringBuffer.append(",");
-			stringBuffer.append(weatherDTO.getCity());
+			stringBuffer.append(w.getCity());
 			stringBuffer.append(",");
-			stringBuffer.append(weatherDTO.getGion());
+			stringBuffer.append(w.getGion());
 			stringBuffer.append("-");
-			stringBuffer.append(weatherDTO.getStatus());
+			stringBuffer.append(w.getStatus());
 			stringBuffer.append("-");
-			stringBuffer.append(weatherDTO.getHuminity());
+			stringBuffer.append(w.getHuminity());
 			stringBuffer.append("\r\n");
 
 		}
-		fw.write(stringBuffer.toString() + "\r\n");
+		fw.write(stringBuffer.toString());
 		fw.flush();
 		fw.close();
 		return weatherDTO;
+	}
+
+	public void update() {
+
 	}
 
 }

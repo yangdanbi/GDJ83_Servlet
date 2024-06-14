@@ -8,6 +8,7 @@ import com.winter.home.Action;
 
 public class WeatherController {
 	// 클라이언트에서 서버로 보내는 거 -> 파라미터
+	// 리스트에서 넘어가는 데이터가 뭔지 모르니까 num을 보내줘야함
 
 	public Action start(HttpServletRequest request) {// request받아옴
 		System.out.println("WeatherController");
@@ -60,20 +61,20 @@ public class WeatherController {
 
 				// url을 줘서 거기로 가라고 함
 				action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
-				action.setFlag(false);
+				action.setFlag(false);// flag가 false가 되면 redirect 보낼 수 있음
 
 			} else {
 				// 메서드 형식이 get방식 이라면 jsp로 이동하기
 				action.setPath("/WEB-INF/views/weather/add.jsp");
 			}
-
+			// 파일에 있는 정보들을 지울거임 DAO 까지 가야함
 		} else if (result.equals("delete")) {
 			String num = request.getParameter("num");
 			WeatherDTO wDTO = new WeatherDTO();
 			wDTO.setNum(Long.parseLong(num));
 			wDTO = weatherService.delete(wDTO);
 			System.out.println("delete 눌림");
-			System.out.println("삭제할 번호: " + wDTO.getNum()); // 삭제할 게시물 번호 나옴
+			System.out.println("삭제할 번호: " + wDTO.getNum() + 1); // 삭제할 게시물 번호 나옴
 
 //			action.setPath("/WEB-INF/views/weather/list.jsp");
 			action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
@@ -93,7 +94,21 @@ public class WeatherController {
 				action.setPath("/WEB-INF/views/commons/message.jsp");
 
 			}
-			// 파일에 있는 정보들을 지울거임 DAO 까지 가야함
+
+		} else if (result.equals("update")) {
+			if (method.toUpperCase().equals("POST")) {
+				// 수정
+
+			} else {
+				WeatherDTO wDTO = new WeatherDTO();
+				// weatherDTO 정보를 jsp로 보내야함
+				// request
+				wDTO.setNum(Long.parseLong(request.getParameter("num")));
+				wDTO = weatherService.getDetail(wDTO);
+				request.setAttribute("dto", wDTO);// jsp에 뿌려줌
+				action.setPath("/WEB-INF/views/weather/update.jsp");
+
+			}
 		}
 		System.out.println("action 출력:" + action.getPath());
 		return action;

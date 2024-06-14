@@ -90,6 +90,7 @@ public class WeatherDAO {
 //		fw.write(weatherDTO.getStatus() + "\r");
 //		fw.write(weatherDTO.getHuminity());
 		fw.flush();
+		fw.close();
 		return weatherDTO;
 
 	}

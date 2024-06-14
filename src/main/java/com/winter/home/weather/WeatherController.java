@@ -20,7 +20,7 @@ public class WeatherController {
 
 		// 메서드 형식을 다른 곳에서도 쓸 수 있으니 위에서 메서드 형식 나눠주기
 		String method = request.getMethod().toUpperCase();
-		
+
 		WeatherService weatherService = new WeatherService();
 		if (result.equals("list")) {
 			List<WeatherDTO> list = weatherService.getWeathers();
@@ -32,11 +32,13 @@ public class WeatherController {
 			if (method.equals("POST")) {
 				System.out.println("add  들어옴");
 				// 메서드 형식이 post니 파일에 저장하기위해 데이터 보내주기
+				// 파라미터 꺼내옴
 				String city = request.getParameter("city");
 				Double gion = Double.parseDouble(request.getParameter("gion"));
 				int huminity = Integer.parseInt(request.getParameter("huminity"));
 				String status = request.getParameter("status");
 
+				// 꺼낸 파라미터 dto에 넣음
 				// 입력받은 데이터 dto에 넣어주기
 				WeatherDTO wDTO = new WeatherDTO();
 
@@ -48,8 +50,17 @@ public class WeatherController {
 				System.out.println("add 시작");
 				weatherService.add(wDTO);
 				System.out.println("add 끝");
+
 //				weatherService.add(weatherDTO);
-				action.setPath("/WEB-INF/views/weather/list.jsp");
+
+				// 만들어진 list를 jsp로 보내주는 작업
+//				List<WeatherDTO> list = weatherService.getWeathers();
+//				request.setAttribute("list", list);
+//				action.setPath("/WEB-INF/views/weather/list.jsp");
+
+				// url을 줘서 거기로 가라고 함
+				action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
+				action.setFlag(false);
 
 			} else {
 				// 메서드 형식이 get방식 이라면 jsp로 이동하기
@@ -72,7 +83,7 @@ public class WeatherController {
 			}
 
 		}
-		System.out.println("action 출력:"+action.getPath());
+		System.out.println("action 출력:" + action.getPath());
 		return action;
 	}
 

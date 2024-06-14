@@ -83,7 +83,7 @@ public class WeatherDAO {
 		System.out.println(stringBuffer.toString());
 		File file = new File("C:\\study", "weather.txt");
 		FileWriter fw = new FileWriter(file, true);
-		fw.write("\r"+stringBuffer.toString());
+		fw.write("\r" + stringBuffer.toString());
 //		fw.write(ar.size() + 1);
 //		fw.write(weatherDTO.getCity() + "\r");
 //		fw.write(weatherDTO.getGion() + "\r");
@@ -93,6 +93,55 @@ public class WeatherDAO {
 		fw.close();
 		return weatherDTO;
 
+	}
+
+	// 서비스에도 delete
+	// weatherDTO에 있는 num을 받아옴
+	public WeatherDTO delete(WeatherDTO weatherDTO) throws Exception {// 매개변수로 weatherDTO 옴
+		// list를 불러와서 지우려고 하는 num 과 일치하는 것을 리스트에서 삭제
+		// 삭제하고 남은 list를 파일에 다시 저장
+		// 지우고 나서 list로 돌아감 돌아갈땐 redirect
+		List<WeatherDTO> ar = this.getWeathers();
+		for (WeatherDTO w : ar) {
+			if (w.getNum() == weatherDTO.getNum()) {
+				// System.out.println("번호 같음" + w);
+				ar.remove(w);
+				break;
+			}
+			// System.out.println("w.getNum : " + w.getNum());
+			// System.out.println("weatherDTO.get : " + weatherDTO.getNum());
+
+			// 남은 것들 파일에 옮겨담기
+		}
+		for (int i = 0; i < ar.size(); i++) {
+
+			System.out.println("ar : " + ar.get(i).getNum());
+			System.out.println("ar city: " + ar.get(i).getCity());
+
+		}
+
+		File file = new File("C:\\study", "weather.txt");
+		FileWriter fw = new FileWriter(file, false);
+
+		StringBuffer stringBuffer = new StringBuffer();// 객체생성
+		for (WeatherDTO w : ar) {
+			weatherDTO.setNum(ar.size());// 번호
+			stringBuffer.append(weatherDTO.getNum());
+			stringBuffer.append(",");
+			stringBuffer.append(weatherDTO.getCity());
+			stringBuffer.append(",");
+			stringBuffer.append(weatherDTO.getGion());
+			stringBuffer.append("-");
+			stringBuffer.append(weatherDTO.getStatus());
+			stringBuffer.append("-");
+			stringBuffer.append(weatherDTO.getHuminity());
+			stringBuffer.append("\r\n");
+
+		}
+		fw.write(stringBuffer.toString() + "\r\n");
+		fw.flush();
+		fw.close();
+		return weatherDTO;
 	}
 
 }

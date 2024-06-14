@@ -67,6 +67,18 @@ public class WeatherController {
 				action.setPath("/WEB-INF/views/weather/add.jsp");
 			}
 
+		} else if (result.equals("delete")) {
+			String num = request.getParameter("num");
+			WeatherDTO wDTO = new WeatherDTO();
+			wDTO.setNum(Long.parseLong(num));
+			wDTO = weatherService.delete(wDTO);
+			System.out.println("delete 눌림");
+			System.out.println("삭제할 번호: " + wDTO.getNum()); // 삭제할 게시물 번호 나옴
+
+//			action.setPath("/WEB-INF/views/weather/list.jsp");
+			action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
+			action.setFlag(false);
+
 		} else if (result.equals("detail")) {// 도시이름 누르면 그 도시 정보 페이지로 이동
 			String num = request.getParameter("num");
 			WeatherDTO weatherDTO = new WeatherDTO();// num을 weatherDTO에 setNum에 넣으려는 목적
@@ -81,7 +93,7 @@ public class WeatherController {
 				action.setPath("/WEB-INF/views/commons/message.jsp");
 
 			}
-
+			// 파일에 있는 정보들을 지울거임 DAO 까지 가야함
 		}
 		System.out.println("action 출력:" + action.getPath());
 		return action;

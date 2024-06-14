@@ -98,6 +98,9 @@ public class WeatherController {
 		} else if (result.equals("update")) {
 			if (method.toUpperCase().equals("POST")) {
 				// 수정
+				String num = request.getParameter("num");
+				WeatherDTO wDTO = new WeatherDTO();
+				wDTO.setNum(Long.parseLong(num));
 
 			} else {
 				WeatherDTO wDTO = new WeatherDTO();

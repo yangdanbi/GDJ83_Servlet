@@ -148,7 +148,7 @@ public class WeatherDAO {
 		return weatherDTO;
 	}
 
-	public void update() {
+	public void update(WeatherDTO weatherDTO) {
 
 	}
 

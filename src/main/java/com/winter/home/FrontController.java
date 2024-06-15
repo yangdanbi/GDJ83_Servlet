@@ -41,14 +41,13 @@ public class FrontController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// ip:port 를 제외한것 uri
 		// TODO Auto-generated method stub
-		System.out.println("request");
-		System.out.println(request.getRequestURI());
-		System.out.println(request.getMethod());
-		System.out.println("실행 됨");
+//		System.out.println("FrontController.doGet - request.getRequestURI() : " + request.getRequestURI());
+//		System.out.println("FrontController.doGet - request.getMethod() : " + request.getMethod());
 		// url method는 필수 파라미터는 없어도 됨
 		// url- ip,port = uri
 		String uri = request.getRequestURI();
 		String method = request.getMethod();
+		System.out.println("FrontController.doGet - uri : " + uri + ", method : " + method);
 		String path = "";
 		Action action = new Action();
 		if (!uri.equals("/favicon.ico")) {
@@ -62,13 +61,13 @@ public class FrontController extends HttpServlet {
 				StudentController sc = new StudentController();
 
 				// path = "/WEB-INF/views/student/list.jsp";
-				System.out.println("student.list 실행");
+				System.out.println("FrontController.doGet - student.list 실행");
 				action = sc.start(request);
 			} else if (result[1].equals("weather")) {
 				WeatherController wc = new WeatherController();
 
 				// path = "/WEB-INF/views/weather/list.jsp";
-				System.out.println("weather.list 실행");
+				System.out.println("FrontController.doGet - weather.list 실행");
 				action = wc.start(request);
 			}
 
@@ -81,10 +80,11 @@ public class FrontController extends HttpServlet {
 				// flag가 false일때 실행
 				response.sendRedirect(action.getPath());
 			}
-			System.out.println(uri);
-			System.out.println(method);
+//			System.out.println(uri);
+//			System.out.println(method);
 
 		}
+		System.out.println("FrontController.doGet - controller 안들어감");
 	}
 
 	/**

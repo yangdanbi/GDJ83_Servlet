@@ -47,4 +47,10 @@ public class WeatherDTO {
 		this.huminity = huminity;
 	}
 
+	@Override
+	public String toString() {
+		return "WeatherDTO [num=" + num + ", city=" + city + ", gion=" + gion + ", status=" + status + ", huminity="
+				+ huminity + "]";
+	}
+
 }

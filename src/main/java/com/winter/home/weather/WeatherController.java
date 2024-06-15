@@ -11,8 +11,9 @@ public class WeatherController {
 	// 리스트에서 넘어가는 데이터가 뭔지 모르니까 num을 보내줘야함
 
 	public Action start(HttpServletRequest request) {// request받아옴
-		System.out.println("WeatherController");
+		System.out.println("WeatherController.start 실행");
 		String uri = request.getRequestURI();
+		System.out.println("WeatherController.start result : "+uri.substring(uri.lastIndexOf("/") + 1));
 		String result = uri.substring(uri.lastIndexOf("/") + 1);// weather 를 자름
 
 		Action action = new Action();
@@ -21,9 +22,11 @@ public class WeatherController {
 
 		// 메서드 형식을 다른 곳에서도 쓸 수 있으니 위에서 메서드 형식 나눠주기
 		String method = request.getMethod().toUpperCase();
+		System.out.println("WeatherController.start method : "+method);
 
 		WeatherService weatherService = new WeatherService();
 		if (result.equals("list")) {
+			// 파일 리스트 읽어오기
 			List<WeatherDTO> list = weatherService.getWeathers();
 			request.setAttribute("list", list);
 			// System.out.println(ar.get(1).getCity());
@@ -31,7 +34,7 @@ public class WeatherController {
 
 		} else if (result.equals("add")) {
 			if (method.equals("POST")) {
-				System.out.println("add  들어옴");
+				System.out.println("WeatherController.start - result[add], method[POST]");
 				// 메서드 형식이 post니 파일에 저장하기위해 데이터 보내주기
 				// 파라미터 꺼내옴
 				String city = request.getParameter("city");
@@ -48,9 +51,9 @@ public class WeatherController {
 				wDTO.setHuminity(huminity);
 				wDTO.setStatus(status);
 
-				System.out.println("add 시작");
+				System.out.println("WeatherController.start - add 시작");
 				weatherService.add(wDTO);
-				System.out.println("add 끝");
+				System.out.println("WeatherController.start - add 끝");
 
 //				weatherService.add(weatherDTO);
 
@@ -73,15 +76,17 @@ public class WeatherController {
 			WeatherDTO wDTO = new WeatherDTO();
 			wDTO.setNum(Long.parseLong(num));
 			wDTO = weatherService.delete(wDTO);
-			System.out.println("delete 눌림");
-			System.out.println("삭제할 번호: " + wDTO.getNum() + 1); // 삭제할 게시물 번호 나옴
+			//System.out.println("delete 눌림");
+			// 삭제할 게시물 번호 나옴
+			System.out.println("WeatherController.start - result[delete] 삭제할 번호: " + wDTO.getNum() + 1);
 
 //			action.setPath("/WEB-INF/views/weather/list.jsp");
 			action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
 			action.setFlag(false);
 
 		} else if (result.equals("detail")) {// 도시이름 누르면 그 도시 정보 페이지로 이동
-			String num = request.getParameter("num");
+			String num = request.getParameter("num");			
+
 			WeatherDTO weatherDTO = new WeatherDTO();// num을 weatherDTO에 setNum에 넣으려는 목적
 			weatherDTO.setNum(Long.parseLong(num));// service로 보내야함
 			weatherDTO = weatherService.getDetail(weatherDTO);
@@ -98,22 +103,41 @@ public class WeatherController {
 		} else if (result.equals("update")) {
 			if (method.toUpperCase().equals("POST")) {
 				// 수정
-				String num = request.getParameter("num");
+				Long num = Long.parseLong(request.getParameter("num"));
+				String city = request.getParameter("city");
+				Double gion = Double.parseDouble(request.getParameter("gion"));
+				int huminity = Integer.parseInt(request.getParameter("huminity"));
+				String status = request.getParameter("status");
+				//jsp에서 입력 된 값 dto에 넣어줌
 				WeatherDTO wDTO = new WeatherDTO();
-				wDTO.setNum(Long.parseLong(num));
-
+				wDTO.setNum(num);
+				wDTO.setCity(city);
+				wDTO.setGion(gion);
+				wDTO.setHuminity(huminity);
+				wDTO.setStatus(status);
+				
+				weatherService.update(wDTO);
+				
+				weatherService.print(wDTO);
+//				System.out.println("update 수정도시 :" + wDTO.toString());//내가 수정할 번호 출력됨
+				
+				//System.out.println("update 수정도시 :" + wDTO.getCity());//내가 수정할 번호 출력됨
+				action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
+				action.setFlag(false);
 			} else {
+				//get방식일때
 				WeatherDTO wDTO = new WeatherDTO();
 				// weatherDTO 정보를 jsp로 보내야함
 				// request
 				wDTO.setNum(Long.parseLong(request.getParameter("num")));
+				
 				wDTO = weatherService.getDetail(wDTO);
 				request.setAttribute("dto", wDTO);// jsp에 뿌려줌
 				action.setPath("/WEB-INF/views/weather/update.jsp");
 
 			}
 		}
-		System.out.println("action 출력:" + action.getPath());
+		System.out.println("WeatherController.start - action 출력 : " + action.getPath());
 		return action;
 	}
 

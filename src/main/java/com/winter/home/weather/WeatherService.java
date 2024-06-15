@@ -60,5 +60,36 @@ public class WeatherService {
 		}
 		return weatherDTO;
 	}
+	public WeatherDTO update(WeatherDTO weatherDTO) {
+		try {
+			weatherDTO = weatherDAO.update(weatherDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return weatherDTO;
+	}
+	
+	public void print(WeatherDTO weatherDTO)  {
+		System.out.println("============ print start =============");
+		System.out.println("num : " + weatherDTO.getNum());
+		System.out.println("getCity : " + weatherDTO.getCity());
+		System.out.println("getGion : " + weatherDTO.getGion());
+		System.out.println("getStatus : " + weatherDTO.getStatus());
+		System.out.println("getHuminity : " + weatherDTO.getHuminity());
+		System.out.println("============== print end =============");
+	}
+	
+	public void print(WeatherDTO weatherDTO, String name)  {
+		System.out.println("============ "+name+" start =============");
+		System.out.println("num : " + weatherDTO.getNum());
+		System.out.println("getCity : " + weatherDTO.getCity());
+		System.out.println("getGion : " + weatherDTO.getGion());
+		System.out.println("getStatus : " + weatherDTO.getStatus());
+		System.out.println("getHuminity : " + weatherDTO.getHuminity());
+		System.out.println("============== "+name+" end =============");
+	}
+
 
 }

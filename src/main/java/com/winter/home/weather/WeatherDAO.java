@@ -112,16 +112,6 @@ public class WeatherDAO {
 				ar.remove(w);
 				break;
 			}
-			// System.out.println("w.getNum : " + w.getNum());
-			// System.out.println("weatherDTO.get : " + weatherDTO.getNum());
-
-			// 남은 것들 파일에 옮겨담기
-		}
-		for (int i = 0; i < ar.size(); i++) {
-
-			System.out.println("ar : " + ar.get(i).getNum());
-			System.out.println("ar city: " + ar.get(i).getCity());
-
 		}
 
 		File file = new File("C:\\study", "weather.txt");
@@ -148,8 +138,80 @@ public class WeatherDAO {
 		return weatherDTO;
 	}
 
-	public void update(WeatherDTO weatherDTO) {
+	public WeatherDTO update(WeatherDTO weatherDTO) throws Exception {
+		System.out.println("WeatherDAO.update - update 실행");
+		List<WeatherDTO> ar = this.getWeathers();
+		boolean flag = false;
+		boolean isCityEqual = false;
+		boolean isGionEqual = false;
+		boolean isStatusEqual = false;
+		boolean isHuminityEqual = false;
+		
+		//프린트용 임시
+		WeatherService ws = new WeatherService();
+		for (WeatherDTO w : ar) {
+//			System.out.println("WeatherDAO.update - update메서드 : " + w.getCity() + w.getStatus());
+			
+			if (w.getNum() == weatherDTO.getNum()) {
+				ws.print(weatherDTO, "weatherDTO");
+				ws.print(w, "파일");
+				isCityEqual = w.getCity().equals(weatherDTO.getCity());
+				isGionEqual = w.getGion() == weatherDTO.getGion();
+				isStatusEqual = w.getStatus().equals(weatherDTO.getStatus());
+				isHuminityEqual = w.getHuminity() == weatherDTO.getHuminity();
+				
+				// Check and update each field if it has changed
+				if (!isCityEqual) {
+					System.out.println("WeatherDAO.update - !isCityEqual");
+					w.setCity(weatherDTO.getCity());
+					flag = true;
+				}
+				if (!isGionEqual) {
+					System.out.println("WeatherDAO.update - !isGionEqual");
+					w.setGion(weatherDTO.getGion());
+					flag = true;
+				}
+				if (!isStatusEqual) {
+					System.out.println("WeatherDAO.update - !isStatusEqual");
+					w.setStatus(weatherDTO.getStatus());
+					flag = true;
+				}
+				if (!isHuminityEqual) {
+					System.out.println("WeatherDAO.update - !isHuminityEqual");
+					w.setHuminity(weatherDTO.getHuminity());
+					flag = true;
+				}
+				break;
+			}
+		
+		}
 
+//		for (WeatherDTO w : ar) {
+//			ws.print(w);
+//		}
+		
+		if (flag) {
+			File file = new File("C:\\study", "weather.txt");
+			FileWriter fw = new FileWriter(file, false);
+			StringBuffer stringBuffer = new StringBuffer();
+			for (WeatherDTO w : ar) {
+				stringBuffer.append(w.getNum());
+				stringBuffer.append(",");
+				stringBuffer.append(w.getCity());
+				stringBuffer.append(",");
+				stringBuffer.append(w.getGion());
+				stringBuffer.append("-");
+				stringBuffer.append(w.getStatus());
+				stringBuffer.append("-");
+				stringBuffer.append(w.getHuminity());
+				stringBuffer.append("\r\n");
+
+			}
+			fw.write(stringBuffer.toString());
+			fw.flush();
+			fw.close();
+		}
+		return weatherDTO;
 	}
 
 }

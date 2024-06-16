@@ -43,6 +43,7 @@
 	</c:forEach>
 
 	</table>
+	<a href="./add">학생등록</a>
 <%-- 	<c:forEach items="${requestScope.list}" var="student">
 
 		<h3>번호 : ${pageScope.student.num}</h3>

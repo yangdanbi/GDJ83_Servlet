@@ -2,6 +2,8 @@ package com.winter.home.student;
 
 import java.util.List;
 
+import com.winter.home.weather.WeatherDTO;
+
 public class StudentService {
 
 	private StudentDAO studentDAO;
@@ -34,6 +36,50 @@ public class StudentService {
 		}
 		return studentDTO;
 	}
+
+	public StudentDTO add(StudentDTO studentDTO) {
+		try {
+			studentDTO = studentDAO.add(studentDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return studentDTO;
+	}
+	public StudentDTO delete(StudentDTO studentDTO) {
+		try {
+			studentDTO = studentDAO.delete(studentDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return studentDTO;
+		
+		
+	}
+	public StudentDTO update(StudentDTO studentDTO) {
+		
+		try {
+			studentDTO = studentDAO.update(studentDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return studentDTO;
+	}
+	public void print(StudentDTO studentDTO)  {
+		System.out.println("============ print start =============");
+		System.out.println("num : " + studentDTO.getNum());
+		System.out.println("getName : " + studentDTO.getName());
+		System.out.println("getKor : " + studentDTO.getKor());
+		System.out.println("getEng : " + studentDTO.getEng());
+		System.out.println("getMath : " + studentDTO.getMath());
+		System.out.println("getTotal : " + studentDTO.getTotal());
+		System.out.println("getAvg : " + studentDTO.getAvg());
+		System.out.println("============== print end =============");
+	}
+	
+	
 
 //	// 변경을 할 수도 있기 때문에 list
 //	public List<StudentDTO> getStudents() {

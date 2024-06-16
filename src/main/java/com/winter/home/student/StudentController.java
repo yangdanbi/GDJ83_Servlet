@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.winter.home.Action;
+import com.winter.home.weather.WeatherDTO;
 
 public class StudentController {
 	private StudentService studentService;
@@ -46,33 +47,39 @@ public class StudentController {
 
 		} else if (result[2].equals("add")) {
 			if (method.toUpperCase().equals("POST")) {
-				StudentDTO student = new StudentDTO();
+				StudentDTO sDTO = new StudentDTO();
 
-				System.out.println("학생 등록데이터를 꺼내야함"); // 파라미터 꺼내면 무조건 string
+				// 파라미터 꺼내면 무조건 string
 				// post방식으로 파라미터 넘기는법
 				String name = request.getParameter("name");
-				student.setName(name);// student에 파라미터로 꺼낸 name을 넣음
-				System.out.println("name : " + name);
-
-				int num = Integer.parseInt(request.getParameter("num"));
-				student.setNum(num);
-				System.out.println("num : " + num);
-
+				int kor = Integer.parseInt(request.getParameter("kor"));
+				int eng = Integer.parseInt(request.getParameter("eng"));
+				int math = Integer.parseInt(request.getParameter("math"));
+				int total = Integer.parseInt(request.getParameter("total"));
 				double avg = Double.parseDouble(request.getParameter("avg"));
-				student.setAvg(avg);
-				System.out.println("avg : " + avg);
 
-				System.out.println("radio : " + request.getParameter("ch"));
-				System.out.println("option : " + request.getParameter("mobile"));
-				System.out.println("textarea : " + request.getParameter("contents"));
+				sDTO.setName(name);// student에 파라미터로 꺼낸 name을 넣음
+				sDTO.setKor(kor);
+				sDTO.setEng(eng);
+				sDTO.setMath(math);
+				sDTO.setTotal(total);
+				sDTO.setAvg(avg);
 
-				String[] ch2 = request.getParameterValues("ch2");
-				for (String s : ch2) { // 데이터타입 변수명: 어디서 찾을건지
-					System.out.println(s);
-				}
+				studentService.add(sDTO);
 
-				action.setFlag(false);
+				/*
+				 * System.out.println("radio : " + request.getParameter("ch"));
+				 * System.out.println("option : " + request.getParameter("mobile"));
+				 * System.out.println("textarea : " + request.getParameter("contents"));
+				 */
+
+				/*
+				 * String[] ch2 = request.getParameterValues("ch2"); for (String s : ch2) { //
+				 * 데이터타입 변수명: 어디서 찾을건지 System.out.println(s); }
+				 */
+
 				action.setPath("./list");
+				action.setFlag(false);
 			} else {
 
 				action.setPath("/WEB-INF/views/student/add.jsp");
@@ -80,6 +87,15 @@ public class StudentController {
 			}
 		} else if (result[2].equals("delete")) {
 			System.out.println("학생정보 삭제");
+			String num = request.getParameter("num");
+			StudentDTO sDTO = new StudentDTO();
+			sDTO.setNum(Integer.parseInt(num));
+			System.out.println("StudentController.start - result[delete] 삭제할 번호: " + sDTO.getNum() + 1);
+
+			sDTO=studentService.delete(sDTO);
+			
+			action.setPath("/student/list");
+			action.setFlag(false);
 		} else if (result[2].equals("detail")) {
 
 			// 지역변수라 소멸되기때문에 request
@@ -104,7 +120,50 @@ public class StudentController {
 				request.setAttribute("message", "정보가 없습니다.");
 				action.setPath("/WEB-INF/views/commons/message.jsp");
 			}
+		}else if(result[2].equals("update")) {
+			
+			if (method.toUpperCase().equals("POST")) {
+				int num = Integer.parseInt(request.getParameter("num"));
+				System.out.println("num" + request.getParameter("num"));
+				String name =request.getParameter("name");
+				System.out.println("kor" + request.getParameter("kor"));
+				int kor = Integer.parseInt(request.getParameter("kor"));
+				
+				System.out.println("eng" + request.getParameter("eng"));
+				int eng = Integer.parseInt(request.getParameter("eng"));
+				
+				System.out.println("math" + request.getParameter("math"));
+				int math = Integer.parseInt(request.getParameter("math"));
+				
+				System.out.println("total" + request.getParameter("total"));
+				int total = Integer.parseInt(request.getParameter("total"));
+				Double avg = Double.parseDouble(request.getParameter("avg"));
+				
+				StudentDTO sDTO = new StudentDTO();
+				sDTO.setNum(num);
+				sDTO.setName(name);
+				sDTO.setKor(kor);
+				sDTO.setEng(eng);
+				sDTO.setMath(math);
+				sDTO.setTotal(total);
+				sDTO.setAvg(avg);
+				
+			sDTO=studentService.update(sDTO);
+			studentService.print(sDTO);
+				
+				action.setPath("/student/list");// 상대경로 ./list - list 둘중 하나
+				action.setFlag(false);
+									
+			}else {
+				StudentDTO sDTO = new StudentDTO();
+				sDTO.setNum(Integer.parseInt(request.getParameter("num")));
+				
+				sDTO = studentService.getDetail(sDTO);
+				request.setAttribute("dto", sDTO);
+				action.setPath("/WEB-INF/views/student/update.jsp");
+			}
 		}
+		System.out.println("WeatherController.start - action 출력 : " + action.getPath());
 		return action;
 
 	}

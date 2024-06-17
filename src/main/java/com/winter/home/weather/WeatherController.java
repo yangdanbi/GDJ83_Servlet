@@ -13,7 +13,7 @@ public class WeatherController {
 	public Action start(HttpServletRequest request) {// request받아옴
 		System.out.println("WeatherController.start 실행");
 		String uri = request.getRequestURI();
-		System.out.println("WeatherController.start result : "+uri.substring(uri.lastIndexOf("/") + 1));
+		System.out.println("WeatherController.start result : " + uri.substring(uri.lastIndexOf("/") + 1));
 		String result = uri.substring(uri.lastIndexOf("/") + 1);// weather 를 자름
 
 		Action action = new Action();
@@ -21,16 +21,17 @@ public class WeatherController {
 		// jsp 경로명을 action에 담아서 보냄
 
 		// 메서드 형식을 다른 곳에서도 쓸 수 있으니 위에서 메서드 형식 나눠주기
+		// post인지 get인지 확인하기 위해서
 		String method = request.getMethod().toUpperCase();
-		System.out.println("WeatherController.start method : "+method);
+		System.out.println("WeatherController.start method : " + method);
 
-		WeatherService weatherService = new WeatherService();
+		WeatherService weatherService = new WeatherService();// weatherService에 있는 메서드를 사용하기위해서
 		if (result.equals("list")) {
 			// 파일 리스트 읽어오기
-			List<WeatherDTO> list = weatherService.getWeathers();
-			request.setAttribute("list", list);
+			List<WeatherDTO> list = weatherService.getWeathers();// weatherService.getWeathers 받아온 list
+			request.setAttribute("list", list);// jsp로 보여줄수있도록
 			// System.out.println(ar.get(1).getCity());
-			action.setPath("/WEB-INF/views/weather/list.jsp");
+			action.setPath("/WEB-INF/views/weather/list.jsp");// 경로이동
 
 		} else if (result.equals("add")) {
 			if (method.equals("POST")) {
@@ -76,7 +77,7 @@ public class WeatherController {
 			WeatherDTO wDTO = new WeatherDTO();
 			wDTO.setNum(Long.parseLong(num));
 			wDTO = weatherService.delete(wDTO);
-			//System.out.println("delete 눌림");
+			// System.out.println("delete 눌림");
 			// 삭제할 게시물 번호 나옴
 			System.out.println("WeatherController.start - result[delete] 삭제할 번호: " + wDTO.getNum() + 1);
 
@@ -85,7 +86,7 @@ public class WeatherController {
 			action.setFlag(false);
 
 		} else if (result.equals("detail")) {// 도시이름 누르면 그 도시 정보 페이지로 이동
-			String num = request.getParameter("num");			
+			String num = request.getParameter("num");
 
 			WeatherDTO weatherDTO = new WeatherDTO();// num을 weatherDTO에 setNum에 넣으려는 목적
 			weatherDTO.setNum(Long.parseLong(num));// service로 보내야함
@@ -103,34 +104,37 @@ public class WeatherController {
 		} else if (result.equals("update")) {
 			if (method.toUpperCase().equals("POST")) {
 				// 수정
+				// add(Object) 끝에 추가
+				// add(Index,Object) 삽입
+				// set(Index,Object) 추가
 				Long num = Long.parseLong(request.getParameter("num"));
 				String city = request.getParameter("city");
 				Double gion = Double.parseDouble(request.getParameter("gion"));
 				int huminity = Integer.parseInt(request.getParameter("huminity"));
 				String status = request.getParameter("status");
-				//jsp에서 입력 된 값 dto에 넣어줌
+				// jsp에서 입력 된 값 dto에 넣어줌
 				WeatherDTO wDTO = new WeatherDTO();
 				wDTO.setNum(num);
 				wDTO.setCity(city);
 				wDTO.setGion(gion);
 				wDTO.setHuminity(huminity);
 				wDTO.setStatus(status);
-				
+
 				weatherService.update(wDTO);
-				
+
 				weatherService.print(wDTO);
 //				System.out.println("update 수정도시 :" + wDTO.toString());//내가 수정할 번호 출력됨
-				
-				//System.out.println("update 수정도시 :" + wDTO.getCity());//내가 수정할 번호 출력됨
+
+				// System.out.println("update 수정도시 :" + wDTO.getCity());//내가 수정할 번호 출력됨
 				action.setPath("/weather/list");// 상대경로 ./list - list 둘중 하나
-				action.setFlag(false);
+				action.setFlag(false);// true면 redirect false면 foward
 			} else {
-				//get방식일때
+				// get방식일때
 				WeatherDTO wDTO = new WeatherDTO();
 				// weatherDTO 정보를 jsp로 보내야함
 				// request
 				wDTO.setNum(Long.parseLong(request.getParameter("num")));
-				
+
 				wDTO = weatherService.getDetail(wDTO);
 				request.setAttribute("dto", wDTO);// jsp에 뿌려줌
 				action.setPath("/WEB-INF/views/weather/update.jsp");

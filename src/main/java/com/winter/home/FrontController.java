@@ -41,10 +41,13 @@ public class FrontController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// ip:port 를 제외한것 uri
 		// TODO Auto-generated method stub
-//		System.out.println("FrontController.doGet - request.getRequestURI() : " + request.getRequestURI());
+		System.out.println("FrontController.doGet - request.getRequestURI() : " + request.getRequestURI());
 //		System.out.println("FrontController.doGet - request.getMethod() : " + request.getMethod());
 		// url method는 필수 파라미터는 없어도 됨
 		// url- ip,port = uri
+		// uri = / 뒤에부터
+		// url = uri를 포함한 모든 부분
+
 		String uri = request.getRequestURI();
 		String method = request.getMethod();
 		System.out.println("FrontController.doGet - uri : " + uri + ", method : " + method);

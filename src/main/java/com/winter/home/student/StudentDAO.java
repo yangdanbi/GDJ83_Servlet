@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.winter.home.weather.WeatherDTO;
-import com.winter.home.weather.WeatherService;
-
 public class StudentDAO {
 	// 파일 읽기
 	public List<StudentDTO> getStudents() throws Exception {
@@ -52,7 +49,7 @@ public class StudentDAO {
 				result = w;
 				break;
 			}
-			//System.out.println(result);
+			// System.out.println(result);
 		}
 		return result;
 	}
@@ -95,19 +92,19 @@ public class StudentDAO {
 	// 삭제
 	public StudentDTO delete(StudentDTO studentDTO) throws Exception {
 		List<StudentDTO> ar = this.getStudents();
-		for(StudentDTO s : ar) {
-			if(s.getNum() == studentDTO.getNum()) {
+		for (StudentDTO s : ar) {
+			if (s.getNum() == studentDTO.getNum()) {
 				System.out.println("번호같음" + s.getNum());
-				ar.remove(s);		
+				ar.remove(s);
 				break;
 			}
 		}
 		File file = new File("C:\\study", "student.txt");
 		StringBuffer sb = new StringBuffer();
 		FileWriter fw = new FileWriter(file, false);
-		
-		for(StudentDTO s: ar) {
-			
+
+		for (StudentDTO s : ar) {
+
 			sb.append(s.getNum());
 			sb.append(",");
 			sb.append(s.getName());
@@ -122,7 +119,7 @@ public class StudentDAO {
 			sb.append(",");
 			sb.append(s.getAvg());
 			sb.append("\r\n");
-		}		
+		}
 		fw.write(sb.toString());
 		fw.flush();
 		fw.close();
@@ -136,32 +133,32 @@ public class StudentDAO {
 		ss.print(studentDTO);
 		List<StudentDTO> ar = this.getStudents();
 		boolean flag = false;
-		for(StudentDTO s : ar) {
-			if(s.getNum() == studentDTO.getNum()) {
-				if(!s.getName().equals(studentDTO.getName())) {
+		for (StudentDTO s : ar) {
+			if (s.getNum() == studentDTO.getNum()) {
+				if (!s.getName().equals(studentDTO.getName())) {
 					s.setName(studentDTO.getName());
 					flag = true;
 				}
-				if(s.getKor() != studentDTO.getKor()) {
+				if (s.getKor() != studentDTO.getKor()) {
 					s.setKor(studentDTO.getKor());
 					flag = true;
 				}
-				if(s.getEng() != studentDTO.getEng()) {
+				if (s.getEng() != studentDTO.getEng()) {
 					s.setEng(studentDTO.getEng());
 					flag = true;
 				}
-				if(s.getMath() != studentDTO.getMath()) {
+				if (s.getMath() != studentDTO.getMath()) {
 					s.setMath(studentDTO.getMath());
 					flag = true;
 				}
-				if(s.getTotal() != studentDTO.getTotal()) {
+				if (s.getTotal() != studentDTO.getTotal()) {
 					s.setTotal(studentDTO.getTotal());
 					flag = true;
 				}
-				if(s.getAvg() != studentDTO.getAvg()) {
+				if (s.getAvg() != studentDTO.getAvg()) {
 					s.setAvg(studentDTO.getAvg());
 					flag = true;
-				}	
+				}
 			}
 		}
 		if (flag) {

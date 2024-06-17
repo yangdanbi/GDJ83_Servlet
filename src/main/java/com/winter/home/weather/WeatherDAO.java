@@ -19,11 +19,13 @@ public class WeatherDAO {
 		// 파일에 날씨정보들을 읽어와서 파싱한 후에 DTO에 담아서 리턴
 		File file = new File("C:\\study", "weather.txt");
 		FileReader fr = new FileReader(file);// 파일경로를 문자로
-		BufferedReader br = new BufferedReader(fr);// 문자를 문자열로
+		BufferedReader br = new BufferedReader(fr);// 문자를 문자열로 스캐너랑 비슷
 
 		ArrayList<WeatherDTO> ar = new ArrayList<WeatherDTO>();
 
 		while (true) {
+			// readLine의 리턴값은 무조건 string
+			// 다른 타입으로 받을시엔 형변환 필요
 			String s = br.readLine();
 			if (s == null) {// readLine읽어들인게 없다면 while문 실행x
 				break;
@@ -66,7 +68,6 @@ public class WeatherDAO {
 	}
 
 	public WeatherDTO add(WeatherDTO weatherDTO) throws Exception {
-		List<WeatherDTO> ar = this.getWeathers();
 		// 도시명-기온-상태-습도
 		StringBuffer stringBuffer = new StringBuffer();
 		// 중복되지않는 수를 만들거임 시간을 이용해서
@@ -74,6 +75,7 @@ public class WeatherDAO {
 		stringBuffer.append(ca.getTimeInMillis());// 중복되지않도록 년월일시분초를 Millis 바꿔줌
 //		weatherDTO.setNum(ar.size() + 1);// 번호
 //		stringBuffer.append(weatherDTO.getNum());
+		// 있는 DTO에 새롭게 추가하기위해 append시키는것
 		stringBuffer.append(",");
 		stringBuffer.append(weatherDTO.getCity());
 		stringBuffer.append(",");
@@ -146,12 +148,12 @@ public class WeatherDAO {
 		boolean isGionEqual = false;
 		boolean isStatusEqual = false;
 		boolean isHuminityEqual = false;
-		
-		//프린트용 임시
+
+		// 프린트용 임시
 		WeatherService ws = new WeatherService();
 		for (WeatherDTO w : ar) {
 //			System.out.println("WeatherDAO.update - update메서드 : " + w.getCity() + w.getStatus());
-			
+
 			if (w.getNum() == weatherDTO.getNum()) {
 				ws.print(weatherDTO, "weatherDTO");
 				ws.print(w, "파일");
@@ -159,7 +161,7 @@ public class WeatherDAO {
 				isGionEqual = w.getGion() == weatherDTO.getGion();
 				isStatusEqual = w.getStatus().equals(weatherDTO.getStatus());
 				isHuminityEqual = w.getHuminity() == weatherDTO.getHuminity();
-				
+
 				// Check and update each field if it has changed
 				if (!isCityEqual) {
 					System.out.println("WeatherDAO.update - !isCityEqual");
@@ -183,13 +185,13 @@ public class WeatherDAO {
 				}
 				break;
 			}
-		
+
 		}
 
 //		for (WeatherDTO w : ar) {
 //			ws.print(w);
 //		}
-		
+
 		if (flag) {
 			File file = new File("C:\\study", "weather.txt");
 			FileWriter fw = new FileWriter(file, false);

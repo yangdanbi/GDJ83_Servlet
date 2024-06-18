@@ -4,16 +4,16 @@ import java.util.List;
 
 public class WeatherService {
 	// 생성자에서 객체 생성
+	// service는 dao가 없으면 일을 할 수 없어서 dao 에 의존적이다
 	private WeatherDAO weatherDAO;
 
 	public WeatherService() {
 		weatherDAO = new WeatherDAO();
-
 	}
 
-//dao랑 controller 사이에서 데이터를 이동
+	// dao랑 controller 사이에서 데이터를 이동
 	public List<WeatherDTO> getWeathers() {
-//여러개 가지고 오는(list)  메서드
+		// 여러개 가지고 오는(list) 메서드
 		List<WeatherDTO> list = null;
 		try {
 			list = weatherDAO.getWeathers();
@@ -60,6 +60,7 @@ public class WeatherService {
 		}
 		return weatherDTO;
 	}
+
 	public WeatherDTO update(WeatherDTO weatherDTO) {
 		try {
 			weatherDTO = weatherDAO.update(weatherDTO);
@@ -67,11 +68,11 @@ public class WeatherService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return weatherDTO;
 	}
-	
-	public void print(WeatherDTO weatherDTO)  {
+
+	public void print(WeatherDTO weatherDTO) {
 		System.out.println("============ print start =============");
 		System.out.println("num : " + weatherDTO.getNum());
 		System.out.println("getCity : " + weatherDTO.getCity());
@@ -80,16 +81,15 @@ public class WeatherService {
 		System.out.println("getHuminity : " + weatherDTO.getHuminity());
 		System.out.println("============== print end =============");
 	}
-	
-	public void print(WeatherDTO weatherDTO, String name)  {
-		System.out.println("============ "+name+" start =============");
+
+	public void print(WeatherDTO weatherDTO, String name) {
+		System.out.println("============ " + name + " start =============");
 		System.out.println("num : " + weatherDTO.getNum());
 		System.out.println("getCity : " + weatherDTO.getCity());
 		System.out.println("getGion : " + weatherDTO.getGion());
 		System.out.println("getStatus : " + weatherDTO.getStatus());
 		System.out.println("getHuminity : " + weatherDTO.getHuminity());
-		System.out.println("============== "+name+" end =============");
+		System.out.println("============== " + name + " end =============");
 	}
-
 
 }
